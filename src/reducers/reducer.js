@@ -26,7 +26,7 @@ export const reducer = (state = initialState, action) => {
           }
           return addItem
         }
-        const priceCalc = (current, addedItemPrice) => {
+        const priceCalcAdd = (current, addedItemPrice) => {
           const newPrice = current + addedItemPrice 
           return newPrice
         }
@@ -35,7 +35,7 @@ export const reducer = (state = initialState, action) => {
           car: {
             ...state.car,
             features: [...state.car.features, selectedItem(action.payload)],
-            price: priceCalc(state.car.price, action.payload.price)
+            price: priceCalcAdd(state.car.price, action.payload.price)
         },
         additionalFeatures: state.additionalFeatures.filter(feature => {
           if(feature.id !== action.payload.id){
@@ -45,6 +45,35 @@ export const reducer = (state = initialState, action) => {
           }
         })
       }
+      case "REMOVE_FEATURE":
+        const priceCalcSub = (current, subprice) =>{
+          const subtract = current - subprice;
+          return subtract
+        }
+        const selectedItemForAdditionalFeatures = payload => {
+          const addItem = {
+            id: payload.id,
+            name: payload.name,
+            price: payload.price
+          }
+          return addItem 
+        }
+        return {
+          ...state, 
+          car: {
+            ...state.car,
+            features: state.car.features.filter(feature => {
+              if(feature.id !== action.payload.id){
+                return feature
+              }else {
+                return null;
+              }
+            }),
+            price: priceCalcSub(state.car.price, action.payload.price)
+          },
+          additionalFeatures: [...state.additionalFeatures, selectedItemForAdditionalFeatures(action.payload) ]
+
+        }
         default: 
         return state
     }
