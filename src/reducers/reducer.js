@@ -17,7 +17,44 @@ const initialState ={
 
 export const reducer = (state = initialState, action) => {
     switch(action.type){
+      case "BUY_ITEM":
+        const selectedItem = payload => {
+          const addItem = {
+            id: payload.id,
+            name: payload.name,
+            price: payload.price
+          }
+          return addItem
+        }
+        const priceCalc = (current, addedItemPrice) => {
+          const newPrice = current + addedItemPrice 
+          return newPrice
+        }
+        return {
+          ...state,
+          car: {
+            ...state.car,
+            features: [...state.car.features, selectedItem(action.payload)],
+            price: priceCalc(state.car.price, action.payload.price)
+        },
+        additionalFeatures: state.additionalFeatures.filter(feature => {
+          if(feature.id !== action.payload.id){
+            return feature
+          }else{
+            return null
+          }
+        })
+      }
         default: 
         return state
     }
 }
+
+
+// export const removeFeature = item => {
+//   return{type: "REMOVE_FEATURE", payload: item }
+// };
+
+// export const buyItem = item => {
+//   return {type: "BUY_ITEM", payload: item}
+// };
