@@ -30,8 +30,13 @@ export const reducer = (state = initialState, action) => {
           const newPrice = current + addedItemPrice 
           return newPrice
         }
+        const calAddition = (current, payload) =>{
+          const value = current + payload ;
+          return value
+        }
         return {
           ...state,
+          additionalPrice: calAddition(state.additionalPrice, action.payload.price),
           car: {
             ...state.car,
             features: [...state.car.features, selectedItem(action.payload)],
@@ -58,8 +63,13 @@ export const reducer = (state = initialState, action) => {
           }
           return addItem 
         }
+        const calSub = (current, payload) =>{
+          const value = current - payload ;
+          return value
+        }
         return {
-          ...state, 
+          ...state,
+          additionalPrice: calSub(state.additionalPrice, action.payload.price),
           car: {
             ...state.car,
             features: state.car.features.filter(feature => {

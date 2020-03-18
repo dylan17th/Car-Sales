@@ -13,7 +13,7 @@ const App = props => {
   return (
     <div className="boxes">
       <div className="box">
-        <Header car={props.car} />
+        <Header car={props.car} additionalPrice={props.additionalPrice} />
         <AddedFeatures car={props.car} removeFeature={props.removeFeature}/>{/*needs to be able to remove an item */}
       </div>
       <div className="box">
@@ -28,7 +28,7 @@ const mapStateToProps = state => {
   return{
     additionalPrice: state.additionalPrice,
     car: state.car,
-    additionalFeatures: state.additionalFeatures
+    additionalFeatures: state.additionalFeatures,
   }
 }
 
